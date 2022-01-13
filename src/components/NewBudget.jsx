@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Message from "./Message";
 
-const NewBudget = ({ budget, setBudget }) => {
+const NewBudget = ({ budget, setBudget, setIsValidBudget }) => {
 
   const [message, setMessage] = useState('')
 
@@ -11,10 +11,10 @@ const NewBudget = ({ budget, setBudget }) => {
 
     if (!numberBudgetType || numberBudgetType < 0) {
       setMessage('Invalid budget...')
-      console.log(message)
-    } else {
-      console.log(numberBudgetType);
+      return
     }
+
+    setIsValidBudget(true)
   }
 
   return (
