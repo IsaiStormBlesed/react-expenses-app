@@ -1,3 +1,4 @@
+import { BudgetControl } from "./BudgetControl"
 import NewBudget from "./NewBudget"
 
 const Header = ({ budget, setBudget, isValidBudget, setIsValidBudget }) => {
@@ -8,7 +9,9 @@ const Header = ({ budget, setBudget, isValidBudget, setIsValidBudget }) => {
       {
         isValidBudget
         ?
-        <h1>Budget is: {budget}</h1>
+        <BudgetControl 
+          budget={budget}
+        />
         :
         <NewBudget 
           budget={budget}
