@@ -1,7 +1,6 @@
 import Expense from "./Expense"
 
-const ExpenseList = ({ expenses }) => {
-  console.log(expenses)
+const ExpenseList = ({ expenses, setExpense2Edit, deleteExpense }) => {
   return (
     <div className="contenedor listado-gastos">
       <h2>{expenses.length > 0 ? 'Gastos' : 'No Expenses Yet'}</h2>
@@ -11,6 +10,8 @@ const ExpenseList = ({ expenses }) => {
           <Expense 
             key={exp.id}
             exp={exp}
+            setExpense2Edit={setExpense2Edit}
+            deleteExpense={deleteExpense}
           />
         ))
       }

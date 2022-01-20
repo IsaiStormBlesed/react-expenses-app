@@ -1,15 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Message from './Message';
 import CloseModalBtn from '../img/cerrar.svg';
 
-const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense }) => {
+const Modal = ({ 
+  setModal, 
+  animateModal, 
+  setAnimateModal, 
+  saveExpense, 
+  expense2Edit, 
+  setExpense2Edit 
+}) => {
 
+  
   const [newExpense, setNewExpense] = useState({
     expense: '',
     amount: 0,
     category: ''
   })
   const [errorMsg, setErrorMsg] = useState('')
+
+  useEffect(() => {
+    if (Object.keys(expense2Edit).length > 0) {
+      setNewExpense(expense2Edit)
+    }
+  }, []);
+  
 
   const handleModalSubmit = (e) => {
     e.preventDefault()
@@ -27,6 +42,7 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense }) => {
 
   const closeModal = () => {
     setAnimateModal(false)
+    setExpense2Edit({})
 
     setTimeout(() => {
       setModal(false)
@@ -47,7 +63,9 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense }) => {
         className={`formulario ${animateModal ? 'animar' : 'cerrar'}`}
         onSubmit={handleModalSubmit}
       >
-        <legend>New Expense</legend>
+        <legend>
+          {expense2Edit.category ? 'Edit Expense' : 'New Expense'}
+        </legend>
 
         {
           errorMsg
@@ -97,7 +115,10 @@ const Modal = ({ setModal, animateModal, setAnimateModal, saveExpense }) => {
           </select>
         </div>
 
-        <input type="submit" value="Add expense" />
+        <input 
+          type="submit" 
+          value={expense2Edit.category ? 'save changes' : 'add expense'}
+        />
       </form>
     </div>
   )
