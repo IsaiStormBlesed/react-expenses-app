@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 
 export const BudgetControl = ({ budget, expenses }) => {
-  console.log(expenses);
 
   const [spent, setSpent] = useState(0)
   const [available, setAvailable] = useState(0)
