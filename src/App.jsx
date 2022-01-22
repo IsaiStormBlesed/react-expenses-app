@@ -7,12 +7,23 @@ import formatDate from './helpers/formatDate'
 import IconNewExpense from './img/nuevo-gasto.svg'
 
 function App() {
-  const [budget, setBudget] = useState(0)
+  const [budget, setBudget] = useState(
+    Number(localStorage.getItem('budget'))
+  )
   const [isValidBudget, setIsValidBudget] = useState(false)
   const [modal, setModal] = useState(false)
   const [animateModal, setAnimateModal] = useState(false)
-  const [expenses, setExpenses] = useState([])
+  const [expenses, setExpenses] = useState(
+    localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : []
+  )
   const [expense2Edit, setExpense2Edit] = useState({})
+  
+  useEffect(() => {
+    const localStorageBudget = Number(localStorage.getItem('budget'))
+    if (localStorageBudget > 0) {
+      setIsValidBudget(true)
+    }
+  }, []);
 
   useEffect(() => {
     if (Object.keys(expense2Edit).length > 0) {
@@ -22,6 +33,15 @@ function App() {
       }, 500);
     }
   }, [expense2Edit]);
+
+  useEffect(() => {
+    localStorage.setItem('budget', budget ?? 0)
+  }, [budget]);
+  
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses) ?? [])
+  }, [expenses]);
+  
   
 
   const handleNewExpense = () => {
