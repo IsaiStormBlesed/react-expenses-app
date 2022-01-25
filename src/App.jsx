@@ -5,6 +5,7 @@ import Modal from './components/Modal'
 import randomId from './helpers/randomId'
 import formatDate from './helpers/formatDate'
 import IconNewExpense from './img/nuevo-gasto.svg'
+import Filter from './components/Filter'
 
 function App() {
   const [budget, setBudget] = useState(
@@ -17,6 +18,8 @@ function App() {
     localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : []
   )
   const [expense2Edit, setExpense2Edit] = useState({})
+  const [filter, setFilter] = useState('');
+  const [expensesFiltered, setExpensesFiltered] = useState([]);
   
   useEffect(() => {
     const localStorageBudget = Number(localStorage.getItem('budget'))
@@ -41,6 +44,14 @@ function App() {
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses) ?? [])
   }, [expenses]);
+
+  useEffect(() => {
+    if(filter) {
+      const filteredExpenses = expenses.filter((exp) => exp.category === filter)
+      setExpensesFiltered(filteredExpenses)
+    }
+  }, [filter]);
+  
   
   
 
@@ -95,10 +106,16 @@ function App() {
         &&
         <>
           <main>
+            <Filter 
+              filter={filter}
+              setFilter={setFilter}
+            />
             <ExpenseList 
               expenses={expenses}
               setExpense2Edit={setExpense2Edit}
               deleteExpense={deleteExpense}
+              filter={filter}
+              expensesFiltered={expensesFiltered}
             />
           </main>
           <div className="nuevo-gasto">
